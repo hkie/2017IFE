@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		li {
+			width: 50px;
+			height: 50px;
+			background-color: red;
+			list-style-type: none;
+			float: left;
+			margin-right: 20px;
+			margin-bottom: 10px;
+			line-height: 50px;
+			text-align: center;
+
+		}
+	</style>
+</head>
+<body>
+	<input type="text" id="nData">
+	<button id="l-in">左侧入</button>
+	<button id="r-in">右侧入</button>
+	<button id="l-out">左侧出</button>
+	<button id="r-out">右侧出</button>
+	<ul id="queue">
+		<li>7</li>
+		<li>45</li>
+		<li>98</li>
+		<li>12</li>
+		<li>36</li>
+	</ul>
+<script type="text/javascript">
+
+var $=function(id) {
+	return document.getElementById(id);
+}
+
+$('l-in').onclick = function() {
+	/*var num = $('nData').value;
+	var text1 =$('queue').innerHTML;
+	var text2 = "<li>"+num+"</li>";
+	$('queue').innerHTML = text1 + text2;*/
+	var nElement = document.createElement('li');
+	nElement.innerHTML = $('nData').value;
+	$('queue').appendChild(nElement);
+}
+
+$('r-in').onclick = function() {
+	/*var num = $('nData').value;
+	var text1 =$('queue').innerHTML;
+	var text2 = "<li>"+num+"</li>";
+	$('queue').innerHTML = text2 + text1;*/
+	var nElement = document.createElement('li');
+	nElement.innerHTML = $('nData').value;
+	$('queue').insertBefore(nElement,$('queue').firstChild);
+}
+
+$('l-out').onclick = function() {
+	var oLi = $('queue').getElementsByTagName('li');
+	$('queue').removeChild(oLi[0]);
+}
+
+$('r-out').onclick = function() {
+	var oLi = $('queue').getElementsByTagName('li');
+	$('queue').removeChild(oLi[oLi.length-1]);
+}
+</script>
+</body>
+</html>

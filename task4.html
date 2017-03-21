@@ -36,14 +36,18 @@
 var $=function(id) {
 	return document.getElementById(id);
 }
-
 $('l-in').onclick = function() {
 	/*var num = $('nData').value;
 	var text1 =$('queue').innerHTML;
 	var text2 = "<li>"+num+"</li>";
 	$('queue').innerHTML = text1 + text2;*/
+	var num = $('nData').value.trim();
+	if(!num.match(/^\d+$/)){
+		alert("Please input a number!");
+		return;
+	}
 	var nElement = document.createElement('li');
-	nElement.innerHTML = $('nData').value;
+	nElement.innerHTML = num;
 	$('queue').appendChild(nElement);
 }
 
@@ -52,8 +56,13 @@ $('r-in').onclick = function() {
 	var text1 =$('queue').innerHTML;
 	var text2 = "<li>"+num+"</li>";
 	$('queue').innerHTML = text2 + text1;*/
+	var num = $('nData').value.trim();    //删除首位空格
+	if(!num.match(/^\d+$/)){
+		alert("Please input a number!");
+		return;
+	}
 	var nElement = document.createElement('li');
-	nElement.innerHTML = $('nData').value;
+	nElement.innerHTML = num;
 	$('queue').insertBefore(nElement,$('queue').firstChild);
 }
 

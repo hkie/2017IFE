@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		li {
+			width: 50px;
+			height: 50px;
+			background-color: red;
+			list-style-type: none;
+			float: left;
+			margin-right: 20px;
+			margin-bottom: 10px;
+			line-height: 50px;
+			text-align: center;
+
+		}
+		#wrap {
+			margin-top: 100px;
+			margin-left: 20px;
+			clear: both;
+		}
+		.chart {
+			margin-left: 10px;
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<input type="text" id="nData">
+	<button id="l-in">左侧入</button>
+	<button id="r-in">右侧入</button>
+	<button id="l-out">左侧出</button>
+	<button id="r-out">右侧出</button>
+	<button id="sort">排序</button>
+	<ul id="queue">
+		<li>7</li>
+		<li>45</li>
+		<li>98</li>
+		<li>12</li>
+		<li>36</li>
+	</ul>
+	<div id="wrap">
+	<div id="chart"></div>
+	</div>	
+<script type="text/javascript">
+/*
+**获取id
+*/
+var $=function(id) {
+	return document.getElementById(id);
+}
+
+/*
+**左侧入
+*/
+$('l-in').onclick = function() {
+	var num = $('nData').value.trim();
+	if(!num.match(/^\d+$/)){
+		alert("Please input a number!");
+		return;
+	}else if (num < 10 || num > 100) {
+		alert("Please input a number between 10 to 100 !");
+		return;
+	}
+	if($('queue').getElementsByTagName('li').length == 60){
+		alert("more than 60 elements");
+		return;
+	}
+	var nElement = document.createElement('li');
+	nElement.innerHTML = num;
+	$('queue').appendChild(nElement);
+	$('nData').value = "";
+	renderChar();
+}
+/*
+**右侧入
+*/
+$('r-in').onclick = function() {
+	var num = $('nData').value.trim();    //trim()删除首位空格
+	if(!num.match(/^\d+$/)){
+		alert("Please input a number!");
+		return;
+	}else if (num < 10 || num > 100) {
+		alert("Please input a number between 10 to 100 !");
+		return;
+	}
+	if($('queue').getElementsByTagName('li').length == 60){
+		alert("more than 60 elements");
+		return;
+	}
+	var nElement = document.createElement('li');
+	nElement.innerHTML = num;
+	$('queue').insertBefore(nElement,$('queue').firstChild);
+	$('nData').value = "";
+	renderChar();
+}
+/*
+**左侧出
+*/
+$('l-out').onclick = function() {
+	var oLi = $('queue').getElementsByTagName('li');
+	$('queue').removeChild(oLi[0]);
+	renderChar();
+}
+/*
+**右侧出
+*/
+$('r-out').onclick = function() {
+	var oLi = $('queue').getElementsByTagName('li');
+	$('queue').removeChild(oLi[oLi.length-1]);
+	renderChar();
+}
+
+/*
+**排序
+*/
+$('sort').onclick = function() {
+	qSort();
+	renderChar();
+}
+function qSort(){
+	var oLi = $('queue').getElementsByTagName('li');
+	var Dat = [];
+	for (var i = oLi.length - 1; i >= 0; i--) {
+		Dat[i] = oLi[i].innerHTML;
+	}
+	Dat.sort(function(a,b){
+		return a-b;
+	})
+	for (var i = oLi.length - 1; i >= 0; i--) {
+		oLi[i].innerHTML = Dat[i];
+	}
+
+}
+/******
+**获取数据
+*/
+function getData() {
+	var oLi = $('queue').getElementsByTagName('li');
+	var Dat = [];
+	for (var i = oLi.length - 1; i >= 0; i--) {
+		Dat[i] = oLi[i].innerHTML;
+	}
+	return Dat;
+}
+/*
+***
+*/
+function renderChar() {
+	var Dat = getData();
+	var style = "style='width:20px;height:{height};background-color:red'";
+	var module = "<div  class= 'chart' " + style + " ></div>";
+	var html = "";
+	for(var i = 0;i < Dat.length; i++) {
+		var height = Dat[i]+"px";
+		html += module.replace('{height}',height);
+	}
+	var wrap = $('wrap');
+	wrap.innerHTML = html;
+}
+renderChar();
+</script>
+</body>
+</html>
